@@ -1,0 +1,61 @@
+name: Databricks E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      PR_ID: pr_${{ github.event.number }}
+      JOB_PREFIX: PR-${{ github.event.number }}_
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Databricks E2E tests (init → pipeline → assert)
+        run: |
+          echo "PR_ID=$PR_ID"
+          echo "JOB_PREFIX=$JOB_PREFIX"
+
+          # 1) Init job
+          python ci/create_or_update_job.py \
+            --job_template jobs/init_test_job.json \
+            --pr_id $PR_ID \
+            --job_name_prefix $JOB_PREFIX
+
+          python ci/run_job.py \
+            --job_name ${JOB_PREFIX}init_test_job
+
+          # 2) Pipeline job
+          python ci/create_or_update_job.py \
+            --job_template jobs/pipeline_job.json \
+            --pr_id $PR_ID \
+            --job_name_prefix $JOB_PREFIX
+
+          python ci/run_job.py \
+            --job_name ${JOB_PREFIX}pipeline_job
+
+          # 3) Assert job
+          python ci/create_or_update_job.py \
+            --job_template jobs/assert_job.json \
+            --pr_id $PR_ID \
+            --job_name_prefix $JOB_PREFIX
+
+          python ci/run_job.py \
+            --job_name ${JOB_PREFIX}assert_job

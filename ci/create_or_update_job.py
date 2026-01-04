@@ -31,8 +31,18 @@ def create_job(job_conf: dict, host: str, token: str) -> dict:
     url = f"{host.rstrip('/')}/api/2.1/jobs/create"
     headers = {"Authorization": f"Bearer {token}"}
     resp = requests.post(url, headers=headers, json=job_conf)
-    resp.raise_for_status()
+
+    if not resp.ok:
+        print("Databricks API error response:")
+        print("Status code:", resp.status_code)
+        try:
+            print("Body:", resp.json())
+        except Exception:
+            print("Body (raw):", resp.text)
+        resp.raise_for_status()
+
     return resp.json()
+
 
 
 def main():

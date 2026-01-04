@@ -9,16 +9,12 @@
           "pr_id": "{{PR_ID}}"
         }
       },
-      "job_cluster_key": "default_cluster"
-    }
-  ],
-  "job_clusters": [
-    {
-      "job_cluster_key": "default_cluster",
-      "new_cluster": {
-        "spark_version": "13.3.x-scala2.12",
-        "num_workers": 1,
-        "node_type_id": "Standard_DS3_v2"
+      "job_cluster_key": null,
+      "existing_cluster_id": null,
+      "new_cluster": null,
+      "warehouse_id": null,
+      "cluster_spec": {
+        "serverless": {}
       }
     }
   ]
