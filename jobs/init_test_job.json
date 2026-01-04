@@ -1,0 +1,25 @@
+{
+  "name": "init_test_job",
+  "tasks": [
+    {
+      "task_key": "init_test",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Repos/radomir@elfak.rs/de-lab-databricks/notebooks/tests/init_test_notebook",
+        "base_parameters": {
+          "pr_id": "{{PR_ID}}"
+        }
+      },
+      "job_cluster_key": "default_cluster"
+    }
+  ],
+  "job_clusters": [
+    {
+      "job_cluster_key": "default_cluster",
+      "new_cluster": {
+        "spark_version": "13.3.x-scala2.12",
+        "num_workers": 1,
+        "node_type_id": "Standard_DS3_v2"
+      }
+    }
+  ]
+}
