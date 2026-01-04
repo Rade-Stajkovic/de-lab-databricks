@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / temporary files
+__pycache__/
+*.pyc
+*.swp
+*.swo
+
+# Databricks CLI and configuration files
+.databrickscfg
+databricks_cli.egg-info/
+.idea/
+*.iml
+
+# Environment and packaging files
+env/
+venv/
+.envrc
+dist/
+build/
+
+# IDE/OS files (e.g., PyCharm, macOS)
+.cache/
+.*project
+.DS_Store
+
+# Testing and coverage
+.coverage
+.tox/
+tox.output/
+tox.ini
