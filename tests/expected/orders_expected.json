@@ -1,0 +1,14 @@
+[
+  {
+    "order_id": "o1",
+    "customer_id": "c1",
+    "amount": 100.0,
+    "order_year": 2024
+  },
+  {
+    "order_id": "o2",
+    "customer_id": "c2",
+    "amount": 200.5,
+    "order_year": 2024
+  }
+]

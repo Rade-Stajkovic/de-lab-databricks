@@ -1,0 +1,20 @@
+[
+  {
+    "order_id": "o1",
+    "customer_id": "c1",
+    "amount": 100.0,
+    "created_at": "2024-01-01T10:00:00"
+  },
+  {
+    "order_id": "o2",
+    "customer_id": "c2",
+    "amount": 200.5,
+    "created_at": "2024-02-15T15:30:00"
+  },
+  {
+    "order_id": "o3",
+    "customer_id": "c3",
+    "amount": -50.0,
+    "created_at": "2024-03-10T09:00:00"
+  }
+]
