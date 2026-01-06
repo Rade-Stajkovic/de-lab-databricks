@@ -1,0 +1,17 @@
+{
+  "name": "cleanup_job",
+  "tasks": [
+    {
+      "task_key": "cleanup_pr_env",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Repos/radomir@elfak.rs/de-lab-databricks/notebooks/maintenance/cleanup_pr_env_notebook",
+        "base_parameters": {
+          "pr_id": "{{PR_ID}}"
+        }
+      },
+      "cluster_spec": {
+        "serverless": {}
+      }
+    }
+  ]
+}

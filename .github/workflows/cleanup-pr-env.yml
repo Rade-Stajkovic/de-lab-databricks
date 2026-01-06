@@ -1,0 +1,46 @@
+name: Cleanup Databricks PR Environment
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - dev
+
+jobs:
+  cleanup-pr-env:
+    if: ${{ github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      PR_ID: pr_${{ github.event.number }}
+      JOB_PREFIX: PR-${{ github.event.number }}_
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Databricks cleanup job
+        run: |
+          echo "PR_ID=$PR_ID"
+          echo "JOB_PREFIX=$JOB_PREFIX"
+
+          # Create or update cleanup job for this PR
+          python ci/create_or_update_job.py \
+            --job_template jobs/cleanup_job.json \
+            --pr_id $PR_ID \
+            --job_name_prefix $JOB_PREFIX
+
+          # Run cleanup job (drops pr_<num>_raw and pr_<num>_clean)
+          python ci/run_job.py \
+            --job_name ${JOB_PREFIX}cleanup_job
